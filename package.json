@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/Uzade/Promissing-SQLite3.git"
   },
-  "files": ["/lib"],
+  "files": ["lib/**/*"],
   "keywords": [],
   "author": "",
   "license": "ISC",
