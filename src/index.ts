@@ -9,17 +9,23 @@ export class PromissingSQLite3{
 
     async execPrep(query: string, ...params: any[]){
         const stmt = await this.prepare(query);
-        return stmt.run(params)
+        const result = stmt.run(params)
+        await stmt.finalize()
+        return result
     }
 
     async getPrep(query: string, ...params: any[]){
         const stmt = await this.prepare(query);
-        return stmt.get(params)
+        const result = stmt.get(params)
+        await stmt.finalize()
+        return result
     }
 
     async allPrep(query: string, ...params: any[]){
         const stmt = await this.prepare(query);
-        return stmt.all(params)
+        const result = stmt.all(params)
+        await stmt.finalize()
+        return result
     }
 
     async exec(query: string){
