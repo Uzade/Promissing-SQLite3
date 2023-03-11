@@ -1,28 +1,53 @@
-import { Database, Statement } from "sqlite3"
+import { Database, Statement } from "sqlite3";
+import * as fs from "fs"; //no idea why this is needed here, but it works
 
 export class PromissingSQLite3{
     db: Database
 
     constructor(db:Database){
-        this.db = db;
+        this.db = db
+    }
+
+    async execFile(path: string) {
+        return this.exec(fs.readFileSync(path).toString())
+    }
+
+    async getFile(path: string) {
+        return this.get(fs.readFileSync(path).toString())
+    }
+
+    async allFile(path: string) {
+        return this.all(fs.readFileSync(path).toString())
+    }
+
+    async execPrepFile(path: string, ...params: any[]){
+        return this.execPrep(fs.readFileSync(path).toString(), ...params)
+    }
+
+    async getPrepFile(path: string, ...params: any[]){
+        return this.getPrep(fs.readFileSync(path).toString(), ...params)
+    }
+
+    async allPrepFile(path: string, ...params: any[]){
+        return this.allPrep(fs.readFileSync(path).toString(), ...params)
     }
 
     async execPrep(query: string, ...params: any[]){
-        const stmt = await this.prepare(query);
+        const stmt = await this.prepare(query)
         const result = stmt.run(params)
         await stmt.finalize()
         return result
     }
 
     async getPrep(query: string, ...params: any[]){
-        const stmt = await this.prepare(query);
+        const stmt = await this.prepare(query)
         const result = stmt.get(params)
         await stmt.finalize()
         return result
     }
 
     async allPrep(query: string, ...params: any[]){
-        const stmt = await this.prepare(query);
+        const stmt = await this.prepare(query)
         const result = stmt.all(params)
         await stmt.finalize()
         return result
